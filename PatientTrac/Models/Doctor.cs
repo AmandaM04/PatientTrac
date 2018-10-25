@@ -17,6 +17,7 @@ namespace PatientTrac.Models
         [Required]
         public string LastName { get; set; }
 
+        [Required]
         public string Facility { get; set; }
     }
 }
