@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PatientTrac.Models
 {
-    public class Doctor
+    public class Doctor : IdentityUser
     {
         [Key]
         public int DoctorId { get; set; }
