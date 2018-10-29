@@ -12,7 +12,7 @@ namespace PatientTrac.Models
         public int DoctorPatientId { get; set; }
 
         [Required]
-        public int DoctorId { get; set; }
+        public string DoctorId { get; set; }
 
         public Doctor Doctor { get; set; }
 

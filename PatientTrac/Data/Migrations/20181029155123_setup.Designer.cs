@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PatientTrac.Data;
 
 namespace PatientTrac.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181029155123_setup")]
+    partial class setup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,11 +226,6 @@ namespace PatientTrac.Data.Migrations
                     b.HasKey("MedicationId");
 
                     b.ToTable("Medication");
-
-                    b.HasData(
-                        new { MedicationId = 1, Name = "Ofloxacin", Type = "Antibiotics" },
-                        new { MedicationId = 2, Name = "Oxycodone", Type = "Analgesics" }
-                    );
                 });
 
             modelBuilder.Entity("PatientTrac.Models.Patient", b =>
@@ -256,11 +253,6 @@ namespace PatientTrac.Data.Migrations
                     b.HasKey("PatientId");
 
                     b.ToTable("Patient");
-
-                    b.HasData(
-                        new { PatientId = 1, Age = 32, FirstName = "Amanda", LastName = "Mitchell", PhoneNumber = "615-123-4567", Sex = "Female", StreetAddress = "123 Book Street" },
-                        new { PatientId = 2, Age = 50, FirstName = "John", LastName = "Doe", PhoneNumber = "931-380-9843", Sex = "Male", StreetAddress = "789 Yellow Brick Rd" }
-                    );
                 });
 
             modelBuilder.Entity("PatientTrac.Models.PatientMedication", b =>
@@ -306,10 +298,6 @@ namespace PatientTrac.Data.Migrations
                     b.ToTable("Doctor");
 
                     b.HasDiscriminator().HasValue("Doctor");
-
-                    b.HasData(
-                        new { Id = "209deb31-cd46-4b67-b6d5-7cb159fbcb1e", AccessFailedCount = 0, ConcurrencyStamp = "978aa432-57c1-4381-836b-aa739ffce874", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEEjx3hHiGt13bEgwWYvB4tU//HfkfuvqMLXzVEerKCbb/77UmYBgwXdBPWVJ1xqgPQ==", PhoneNumberConfirmed = false, SecurityStamp = "7977f882-6801-4e4e-9b04-7053c11c8b10", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
-                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

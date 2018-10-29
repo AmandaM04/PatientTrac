@@ -6,25 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PatientTrac.Data;
+using PatientTrac.Models;
 
-namespace PatientTrac.Models
+namespace PatientTrac.Controllers
 {
-    public class DoctorsController : Controller
+    public class PatientsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DoctorsController(ApplicationDbContext context)
+        public PatientsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Doctors
+        // GET: Patients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Doctor.ToListAsync());
+            return View(await _context.Patient.ToListAsync());
         }
 
-        // GET: Doctors/Details/5
+        // GET: Patients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +33,39 @@ namespace PatientTrac.Models
                 return NotFound();
             }
 
-            var doctor = await _context.Doctor
-                .FirstOrDefaultAsync(m => m.DoctorId == id);
-            if (doctor == null)
+            var patient = await _context.Patient
+                .FirstOrDefaultAsync(m => m.PatientId == id);
+            if (patient == null)
             {
                 return NotFound();
             }
 
-            return View(doctor);
+            return View(patient);
         }
 
-        // GET: Doctors/Create
+        // GET: Patients/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Doctors/Create
+        // POST: Patients/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorId,FirstName,LastName,Facility")] Doctor doctor)
+        public async Task<IActionResult> Create([Bind("PatientId,FirstName,LastName,StreetAddress,PhoneNumber,Age,Sex")] Patient patient)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(doctor);
+                _context.Add(patient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctor);
+            return View(patient);
         }
 
-        // GET: Doctors/Edit/5
+        // GET: Patients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +73,22 @@ namespace PatientTrac.Models
                 return NotFound();
             }
 
-            var doctor = await _context.Doctor.FindAsync(id);
-            if (doctor == null)
+            var patient = await _context.Patient.FindAsync(id);
+            if (patient == null)
             {
                 return NotFound();
             }
-            return View(doctor);
+            return View(patient);
         }
 
-        // POST: Doctors/Edit/5
+        // POST: Patients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,FirstName,LastName,Facility")] Doctor doctor)
+        public async Task<IActionResult> Edit(int id, [Bind("PatientId,FirstName,LastName,StreetAddress,PhoneNumber,Age,Sex")] Patient patient)
         {
-            if (id != doctor.DoctorId)
+            if (id != patient.PatientId)
             {
                 return NotFound();
             }
@@ -96,12 +97,12 @@ namespace PatientTrac.Models
             {
                 try
                 {
-                    _context.Update(doctor);
+                    _context.Update(patient);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DoctorExists(doctor.DoctorId))
+                    if (!PatientExists(patient.PatientId))
                     {
                         return NotFound();
                     }
@@ -112,10 +113,10 @@ namespace PatientTrac.Models
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctor);
+            return View(patient);
         }
 
-        // GET: Doctors/Delete/5
+        // GET: Patients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +124,30 @@ namespace PatientTrac.Models
                 return NotFound();
             }
 
-            var doctor = await _context.Doctor
-                .FirstOrDefaultAsync(m => m.DoctorId == id);
-            if (doctor == null)
+            var patient = await _context.Patient
+                .FirstOrDefaultAsync(m => m.PatientId == id);
+            if (patient == null)
             {
                 return NotFound();
             }
 
-            return View(doctor);
+            return View(patient);
         }
 
-        // POST: Doctors/Delete/5
+        // POST: Patients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var doctor = await _context.Doctor.FindAsync(id);
-            _context.Doctor.Remove(doctor);
+            var patient = await _context.Patient.FindAsync(id);
+            _context.Patient.Remove(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DoctorExists(int id)
+        private bool PatientExists(int id)
         {
-            return _context.Doctor.Any(e => e.DoctorId == id);
+            return _context.Patient.Any(e => e.PatientId == id);
         }
     }
 }

@@ -29,9 +29,9 @@ namespace PatientTrac.Models
 
         public string Sex { get; set; }
 
-        public virtual ICollection<Medication> Medications { get; set; }
+        public virtual ICollection<PatientMedication> PatientMedications { get; set; }
 
-        public virtual ICollection<Doctor> Doctors { get; set; }
+        public virtual ICollection<DoctorPatient> DoctorPatients { get; set; }
 
         [Display(Name = "Patient Name")]
         public string FullName

@@ -9,8 +9,6 @@ namespace PatientTrac.Models
 {
     public class Doctor : IdentityUser
     {
-        [Key]
-        public int DoctorId { get; set; }
 
         [Required]
         [Display(Name = "First name")]
@@ -23,7 +21,7 @@ namespace PatientTrac.Models
         [Required]
         public string Facility { get; set; }
 
-        public virtual ICollection<Patient> Patients { get; set; }
+        public virtual ICollection<DoctorPatient> DoctorPatients { get; set; }
 
         [Display(Name = "Doctor Name")]
         public string FullName

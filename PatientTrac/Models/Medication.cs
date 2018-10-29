@@ -17,6 +17,6 @@ namespace PatientTrac.Models
         [Required]
         public string Type { get; set; }
 
-        public virtual ICollection<Patient> Patients { get; set; }
+        public virtual ICollection<PatientMedication> PatientMedications { get; set; }
     }
 }
