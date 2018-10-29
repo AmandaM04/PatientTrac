@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PatientTrac.Models;
 
 namespace PatientTrac.Data
 {
@@ -12,5 +13,7 @@ namespace PatientTrac.Data
             : base(options)
         {
         }
+        public DbSet<PatientTrac.Models.Doctor> Doctor { get; set; }
+        public DbSet<PatientTrac.Models.Medication> Medication { get; set; }
     }
 }

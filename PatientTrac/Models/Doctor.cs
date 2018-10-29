@@ -22,6 +22,8 @@ namespace PatientTrac.Models
         [Required]
         public string Facility { get; set; }
 
+        public virtual ICollection<Patient> Patients { get; set; }
+
         [Display(Name = "Doctor Name")]
         public string FullName
         {
