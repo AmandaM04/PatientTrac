@@ -32,17 +32,15 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <form class="navbar-text" asp-controller="Patients" asp-action="Search"><input name="searchQuery" type="text" placeholder="search for patients" /><button style="display:none" type="submit"></button></form>
                         <li><a asp-area="" asp-controller="Medications" asp-action="Index">Medications</a></li>
-                        @*if (User.IsInRole("Admin"))
-            {
-                <li>Link show only to Admin </li>
-            }*@
+                        <li><a asp-area="" asp-controller="Patients" asp-action="Index">Patients</a></li>
                     }
                     else
                     {
                         <li><a asp-area="" asp-controller="Home" asp-action="Index"></a></li>
                     }
-                 </ul>
+                </ul>
                     <partial name="_LoginPartial" />
 </div>
         </div>

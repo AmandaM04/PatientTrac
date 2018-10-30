@@ -22,7 +22,16 @@ namespace PatientTrac.Controllers
         // GET: Patients
         public async Task<IActionResult> Index()
         {
+            var applicationDbContext = _context.Patient.Include(p => p.DoctorPatients);
             return View(await _context.Patient.ToListAsync());
+        }
+
+        // Search: Patients
+        public async Task<IActionResult> Search(string searchQuery)
+        {
+            List<Patient> searchResults = new List<Patient>();
+            searchResults = await _context.Patient.Where(p => p.FullName.Contains(searchQuery)).ToListAsync();
+            return View(searchResults);
         }
 
         // GET: Patients/Details/5
