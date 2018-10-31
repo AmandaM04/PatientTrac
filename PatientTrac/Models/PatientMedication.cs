@@ -17,8 +17,7 @@ namespace PatientTrac.Models
         [Required]
         public DateTime StartDate { get; set; }
 
-        [Required]
-        public DateTime StopDate { get; set; }
+        public DateTime? StopDate { get; set; }
 
         [Required]
         public int Dosage { get; set; }

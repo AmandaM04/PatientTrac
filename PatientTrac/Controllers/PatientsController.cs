@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PatientTrac.Data;
 using PatientTrac.Models;
+using PatientTrac.Models.PatientViewModels;
 
 namespace PatientTrac.Controllers
 {
@@ -123,6 +124,24 @@ namespace PatientTrac.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(patient);
+        }
+
+        // GET: Patients/AddMeds/5
+        public async Task<IActionResult> AddMeds(int? id)
+        {
+           
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var patient = await _context.Patient.FindAsync(id);
+            if (patient == null)
+            {
+                return NotFound();
+            }
+            PatientEditAddMeds PatientEditAddMeds = new PatientEditAddMeds(_context);
+            //PatientEditAddMeds.PatientMedications.Patient.PatientId = patient;
+            return View(PatientEditAddMeds);
         }
 
         // GET: Patients/Delete/5
