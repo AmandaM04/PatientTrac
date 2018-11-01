@@ -11,13 +11,21 @@ namespace PatientTrac.Models.PatientViewModels
     {
         public PatientEditAddMeds(ApplicationDbContext context)
         {
-            Medications = context.Medication.Select(medication =>
+            //PatientMedication = new PatientMedication();
+            MedicationId = context.Medication.Select(medication =>
             new SelectListItem { Text = medication.Name, Value = medication.MedicationId.ToString() }).ToList();
 
         }
 
-        public PatientMedication PatientMedications { get; set; }
 
-        public List<SelectListItem> Medications { get; set; }
+        public int PatientId { get; set; }
+        public bool CurrentlyTaking { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime StopDate { get; set; }
+        public int Dosage { get; set; }
+
+        //public PatientMedication PatientMedication { get; set; }
+
+        public List<SelectListItem> MedicationId { get; set; }
     }
 }

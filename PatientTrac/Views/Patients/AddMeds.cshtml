@@ -11,31 +11,31 @@
     <div class="col-md-4">
         <form asp-action="AddMeds">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PatientMedications.PatientId" />
+            <input type="hidden" asp-for="PatientId" name="PatientId" />
             <div class="form-group">
-                <label asp-for="Medications" class="control-label"></label>
-                <select asp-for="PatientMedications.MedicationId" class="form-control" asp-items="@Model.Medications"></select>
-                <span asp-validation-for="PatientMedications.MedicationId" class="text-danger"></span>
+                <label asp-for="MedicationId" class="control-label" name="MedicationId"></label>
+                <select asp-for="MedicationId" class="form-control" asp-items="@Model.MedicationId"></select>
+                <span asp-validation-for="MedicationId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PatientMedications.CurrentlyTaking" class="control-label"></label>
-                <input asp-for="PatientMedications.CurrentlyTaking" class="form-control" />
-                <span asp-validation-for="PatientMedications.CurrentlyTaking" class="text-danger"></span>
+                <label asp-for="CurrentlyTaking" class="control-label" name="CurrentlyTaking"></label>
+                <input asp-for="CurrentlyTaking" class="form-control" />
+                <span asp-validation-for="CurrentlyTaking" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PatientMedications.StartDate" class="control-label"></label>
-                <input asp-for="PatientMedications.StartDate" class="form-control" />
-                <span asp-validation-for="PatientMedications.StartDate" class="text-danger"></span>
+                <label asp-for="StartDate" class="control-label" name="StartDate"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PatientMedications.StopDate" class="control-label"></label>
-                <input asp-for="PatientMedications.StopDate" class="form-control" />
-                <span asp-validation-for="PatientMedications.StopDate" class="text-danger"></span>
+                <label asp-for="StopDate" class="control-label" name="StopDate"></label>
+                <input asp-for="StopDate" class="form-control" />
+                <span asp-validation-for="StopDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PatientMedications.Dosage" class="control-label"></label>
-                <input asp-for="PatientMedications.Dosage" class="form-control" />
-                <span asp-validation-for="PatientMedications.Dosage" class="text-danger"></span>
+                <label asp-for="Dosage" class="control-label" name="Dosage"></label>
+                <input asp-for="Dosage" class="form-control" />
+                <span asp-validation-for="Dosage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

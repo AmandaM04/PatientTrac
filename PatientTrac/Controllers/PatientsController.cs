@@ -127,21 +127,29 @@ namespace PatientTrac.Controllers
         }
 
         // GET: Patients/AddMeds/5
-        public async Task<IActionResult> AddMeds(int? id)
+        public ActionResult AddMeds(int id)
         {
-           
-            if (id == null)
+         
+            PatientEditAddMeds viewModel = new PatientEditAddMeds(_context);
+            viewModel.PatientId = id;
+            return View(viewModel);
+        }
+
+        // POST: Patients/AddMeds/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMeds(int id, PatientMedication patientmeds)
+        {
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                _context.Add(patientmeds);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            var patient = await _context.Patient.FindAsync(id);
-            if (patient == null)
-            {
-                return NotFound();
-            }
-            PatientEditAddMeds PatientEditAddMeds = new PatientEditAddMeds(_context);
-            //PatientEditAddMeds.PatientMedications.Patient.PatientId = patient;
-            return View(PatientEditAddMeds);
+            PatientEditAddMeds viewModel = new PatientEditAddMeds(_context);
+            return View(viewModel);
         }
 
         // GET: Patients/Delete/5
