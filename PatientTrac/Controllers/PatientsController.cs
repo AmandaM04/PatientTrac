@@ -131,7 +131,10 @@ namespace PatientTrac.Controllers
         {
          
             PatientEditAddMeds viewModel = new PatientEditAddMeds(_context);
+            // this is to assign the fields in the viewmodel with the information inside the input fields
             viewModel.PatientId = id;
+            viewModel.StartDate = DateTime.Now;
+            //viewModel.StopDate = DateTime.Now;
             return View(viewModel);
         }
 
