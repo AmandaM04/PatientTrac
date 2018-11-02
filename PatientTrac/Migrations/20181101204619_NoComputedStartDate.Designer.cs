@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PatientTrac.Data;
 
-namespace PatientTrac.Data.Migrations
+namespace PatientTrac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181101204619_NoComputedStartDate")]
+    partial class NoComputedStartDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,7 +281,7 @@ namespace PatientTrac.Data.Migrations
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime>("StopDate");
+                    b.Property<DateTime?>("StopDate");
 
                     b.HasKey("PatientMedicationId");
 
@@ -308,7 +310,7 @@ namespace PatientTrac.Data.Migrations
                     b.HasDiscriminator().HasValue("Doctor");
 
                     b.HasData(
-                        new { Id = "209deb31-cd46-4b67-b6d5-7cb159fbcb1e", AccessFailedCount = 0, ConcurrencyStamp = "978aa432-57c1-4381-836b-aa739ffce874", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEEjx3hHiGt13bEgwWYvB4tU//HfkfuvqMLXzVEerKCbb/77UmYBgwXdBPWVJ1xqgPQ==", PhoneNumberConfirmed = false, SecurityStamp = "7977f882-6801-4e4e-9b04-7053c11c8b10", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
+                        new { Id = "ae8292e5-c75a-4783-ad65-313349cecbd4", AccessFailedCount = 0, ConcurrencyStamp = "228832a4-46fd-4779-aba5-80fc9661e8cd", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEGvIZK41XuEEm8RaHE08kl5ljYtqNiRTCatYxgctIie9zZLwY6PDUs1MWt03lQNNxA==", PhoneNumberConfirmed = false, SecurityStamp = "f83280c4-9fd8-404b-a7eb-727719e17cf6", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
                     );
                 });
 

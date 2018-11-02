@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PatientTrac.Data.Migrations
+namespace PatientTrac.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class newdatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,11 +40,47 @@ namespace PatientTrac.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Facility = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medication",
+                columns: table => new
+                {
+                    MedicationId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    Type = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medication", x => x.MedicationId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patient",
+                columns: table => new
+                {
+                    PatientId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    StreetAddress = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    Age = table.Column<int>(nullable: false),
+                    Sex = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patient", x => x.PatientId);
                 });
 
             migrationBuilder.CreateTable(
@@ -153,6 +189,85 @@ namespace PatientTrac.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "DoctorPatient",
+                columns: table => new
+                {
+                    DoctorPatientId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DoctorId = table.Column<string>(nullable: false),
+                    PatientId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorPatient", x => x.DoctorPatientId);
+                    table.ForeignKey(
+                        name: "FK_DoctorPatient_AspNetUsers_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DoctorPatient_Patient_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patient",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PatientMedication",
+                columns: table => new
+                {
+                    PatientMedicationId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CurrentlyTaking = table.Column<bool>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    StopDate = table.Column<DateTime>(nullable: true),
+                    Dosage = table.Column<int>(nullable: false),
+                    PatientId = table.Column<int>(nullable: false),
+                    MedicationId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PatientMedication", x => x.PatientMedicationId);
+                    table.ForeignKey(
+                        name: "FK_PatientMedication_Medication_MedicationId",
+                        column: x => x.MedicationId,
+                        principalTable: "Medication",
+                        principalColumn: "MedicationId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PatientMedication_Patient_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patient",
+                        principalColumn: "PatientId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Facility", "FirstName", "LastName" },
+                values: new object[] { "2601bfa6-8dfe-4a13-8b52-fc4ddd664806", 0, "28888e74-b3f5-45c4-aa6a-3b5e891ef357", "Doctor", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEIayr46Fz7Y+JNh7rkYiev5cDmtvK2lOuxTinbtTA//Sh6RFlrLc31TeNtMd8XCVSQ==", null, false, "7386a051-ca15-4f59-bdbb-bf1a7ab5e6b5", false, "admin@admin.com", "Vanderbilt", "Jill", "Scott" });
+
+            migrationBuilder.InsertData(
+                table: "Medication",
+                columns: new[] { "MedicationId", "Name", "Type" },
+                values: new object[,]
+                {
+                    { 1, "Ofloxacin", "Antibiotics" },
+                    { 2, "Oxycodone", "Analgesics" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Patient",
+                columns: new[] { "PatientId", "Age", "FirstName", "LastName", "PhoneNumber", "Sex", "StreetAddress" },
+                values: new object[,]
+                {
+                    { 1, 32, "Amanda", "Mitchell", "615-123-4567", "Female", "123 Book Street" },
+                    { 2, 50, "John", "Doe", "931-380-9843", "Male", "789 Yellow Brick Rd" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +306,26 @@ namespace PatientTrac.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorPatient_DoctorId",
+                table: "DoctorPatient",
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DoctorPatient_PatientId",
+                table: "DoctorPatient",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientMedication_MedicationId",
+                table: "PatientMedication",
+                column: "MedicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientMedication_PatientId",
+                table: "PatientMedication",
+                column: "PatientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +346,22 @@ namespace PatientTrac.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "DoctorPatient");
+
+            migrationBuilder.DropTable(
+                name: "PatientMedication");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Medication");
+
+            migrationBuilder.DropTable(
+                name: "Patient");
         }
     }
 }

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PatientTrac.Data;
 
-namespace PatientTrac.Data.Migrations
+namespace PatientTrac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181029155123_setup")]
-    partial class setup
+    [Migration("20181102153444_id")]
+    partial class id
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -220,12 +220,21 @@ namespace PatientTrac.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int?>("PatientId");
+
                     b.Property<string>("Type")
                         .IsRequired();
 
                     b.HasKey("MedicationId");
 
+                    b.HasIndex("PatientId");
+
                     b.ToTable("Medication");
+
+                    b.HasData(
+                        new { MedicationId = 1, Name = "Ofloxacin", Type = "Antibiotics" },
+                        new { MedicationId = 2, Name = "Oxycodone", Type = "Analgesics" }
+                    );
                 });
 
             modelBuilder.Entity("PatientTrac.Models.Patient", b =>
@@ -253,6 +262,11 @@ namespace PatientTrac.Data.Migrations
                     b.HasKey("PatientId");
 
                     b.ToTable("Patient");
+
+                    b.HasData(
+                        new { PatientId = 1, Age = 32, FirstName = "Amanda", LastName = "Mitchell", PhoneNumber = "615-123-4567", Sex = "Female", StreetAddress = "123 Book Street" },
+                        new { PatientId = 2, Age = 50, FirstName = "John", LastName = "Doe", PhoneNumber = "931-380-9843", Sex = "Male", StreetAddress = "789 Yellow Brick Rd" }
+                    );
                 });
 
             modelBuilder.Entity("PatientTrac.Models.PatientMedication", b =>
@@ -271,7 +285,7 @@ namespace PatientTrac.Data.Migrations
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime>("StopDate");
+                    b.Property<DateTime?>("StopDate");
 
                     b.HasKey("PatientMedicationId");
 
@@ -298,6 +312,10 @@ namespace PatientTrac.Data.Migrations
                     b.ToTable("Doctor");
 
                     b.HasDiscriminator().HasValue("Doctor");
+
+                    b.HasData(
+                        new { Id = "5b504f68-aa68-4efe-9d96-ceb17471d409", AccessFailedCount = 0, ConcurrencyStamp = "1db88db5-a741-49fd-a5e4-2d3bbaecc035", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEBs/L9GpMH/AsXPj+0Bq8V7AdoQg5xK8mRAV+G3ros+eS6B8R+PhX/d2p2636bdLAA==", PhoneNumberConfirmed = false, SecurityStamp = "3e488554-9afc-4a82-97cb-72bbffb142ac", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -356,6 +374,13 @@ namespace PatientTrac.Data.Migrations
                         .WithMany("DoctorPatients")
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PatientTrac.Models.Medication", b =>
+                {
+                    b.HasOne("PatientTrac.Models.Patient")
+                        .WithMany("CurrentMedications")
+                        .HasForeignKey("PatientId");
                 });
 
             modelBuilder.Entity("PatientTrac.Models.PatientMedication", b =>

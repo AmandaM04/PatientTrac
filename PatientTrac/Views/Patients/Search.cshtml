@@ -1,0 +1,21 @@
+﻿@model IEnumerable<PatientTrac.Models.Patient>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <h2>Product Search Results</h2>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.PatientId"> @Html.DisplayFor(modelItem => item.FullName) </a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

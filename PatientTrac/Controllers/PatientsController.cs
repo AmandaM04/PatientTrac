@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PatientTrac.Data;
 using PatientTrac.Models;
+using PatientTrac.Models.PatientViewModels;
 
 namespace PatientTrac.Controllers
 {
@@ -22,7 +23,16 @@ namespace PatientTrac.Controllers
         // GET: Patients
         public async Task<IActionResult> Index()
         {
+            var applicationDbContext = _context.Patient.Include(p => p.DoctorPatients);
             return View(await _context.Patient.ToListAsync());
+        }
+
+        // Search: Patients
+        public async Task<IActionResult> Search(string searchQuery)
+        {
+            List<Patient> searchResults = new List<Patient>();
+            searchResults = await _context.Patient.Where(p => p.FullName.Contains(searchQuery)).ToListAsync();
+            return View(searchResults);
         }
 
         // GET: Patients/Details/5
@@ -34,6 +44,8 @@ namespace PatientTrac.Controllers
             }
 
             var patient = await _context.Patient
+                //joining 2 tables on the patientmedication join table
+                .Include("CurrentMedications.Medication")
                 .FirstOrDefaultAsync(m => m.PatientId == id);
             if (patient == null)
             {
@@ -114,6 +126,35 @@ namespace PatientTrac.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(patient);
+        }
+
+        // GET: Patients/AddMeds/5
+        public ActionResult AddMeds(int id)
+        {
+         
+            PatientEditAddMeds viewModel = new PatientEditAddMeds(_context);
+            // this is to assign the fields in the viewmodel with the information inside the input fields
+            viewModel.PatientId = id;
+            viewModel.StartDate = DateTime.Now;
+            //viewModel.StopDate = DateTime.Now;
+            return View(viewModel);
+        }
+
+        // POST: Patients/AddMeds/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMeds(int id, PatientMedication patientmeds)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(patientmeds);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            PatientEditAddMeds viewModel = new PatientEditAddMeds(_context);
+            return View(viewModel);
         }
 
         // GET: Patients/Delete/5

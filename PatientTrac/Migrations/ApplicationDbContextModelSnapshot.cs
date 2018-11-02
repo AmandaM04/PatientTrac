@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PatientTrac.Data;
 
-namespace PatientTrac.Data.Migrations
+namespace PatientTrac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181029164421_delete-behavior")]
-    partial class deletebehavior
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,6 +224,11 @@ namespace PatientTrac.Data.Migrations
                     b.HasKey("MedicationId");
 
                     b.ToTable("Medication");
+
+                    b.HasData(
+                        new { MedicationId = 1, Name = "Ofloxacin", Type = "Antibiotics" },
+                        new { MedicationId = 2, Name = "Oxycodone", Type = "Analgesics" }
+                    );
                 });
 
             modelBuilder.Entity("PatientTrac.Models.Patient", b =>
@@ -242,6 +245,8 @@ namespace PatientTrac.Data.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
+                    b.Property<int?>("MedicationsMedicationId");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired();
 
@@ -252,7 +257,14 @@ namespace PatientTrac.Data.Migrations
 
                     b.HasKey("PatientId");
 
+                    b.HasIndex("MedicationsMedicationId");
+
                     b.ToTable("Patient");
+
+                    b.HasData(
+                        new { PatientId = 1, Age = 32, FirstName = "Amanda", LastName = "Mitchell", PhoneNumber = "615-123-4567", Sex = "Female", StreetAddress = "123 Book Street" },
+                        new { PatientId = 2, Age = 50, FirstName = "John", LastName = "Doe", PhoneNumber = "931-380-9843", Sex = "Male", StreetAddress = "789 Yellow Brick Rd" }
+                    );
                 });
 
             modelBuilder.Entity("PatientTrac.Models.PatientMedication", b =>
@@ -271,7 +283,7 @@ namespace PatientTrac.Data.Migrations
 
                     b.Property<DateTime>("StartDate");
 
-                    b.Property<DateTime>("StopDate");
+                    b.Property<DateTime?>("StopDate");
 
                     b.HasKey("PatientMedicationId");
 
@@ -298,6 +310,10 @@ namespace PatientTrac.Data.Migrations
                     b.ToTable("Doctor");
 
                     b.HasDiscriminator().HasValue("Doctor");
+
+                    b.HasData(
+                        new { Id = "b2f391f0-2036-4533-a32c-71b99c37cf03", AccessFailedCount = 0, ConcurrencyStamp = "b2bc1c03-a337-45da-a483-3bb82ab8d6ad", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEEz/ePYd48AgJKbvLoj4d6DmLpS23gek42hrUOqUwWNxy1VbI0Mub+EYoYKQ3rpxcw==", PhoneNumberConfirmed = false, SecurityStamp = "aedfebb8-d0b2-4d82-bc33-6f20eceeced5", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -305,7 +321,7 @@ namespace PatientTrac.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -313,7 +329,7 @@ namespace PatientTrac.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -321,7 +337,7 @@ namespace PatientTrac.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -329,12 +345,12 @@ namespace PatientTrac.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -342,7 +358,7 @@ namespace PatientTrac.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PatientTrac.Models.DoctorPatient", b =>
@@ -350,12 +366,19 @@ namespace PatientTrac.Data.Migrations
                     b.HasOne("PatientTrac.Models.Doctor", "Doctor")
                         .WithMany("DoctorPatients")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PatientTrac.Models.Patient", "Patient")
                         .WithMany("DoctorPatients")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PatientTrac.Models.Patient", b =>
+                {
+                    b.HasOne("PatientTrac.Models.Medication", "Medications")
+                        .WithMany()
+                        .HasForeignKey("MedicationsMedicationId");
                 });
 
             modelBuilder.Entity("PatientTrac.Models.PatientMedication", b =>
@@ -363,12 +386,12 @@ namespace PatientTrac.Data.Migrations
                     b.HasOne("PatientTrac.Models.Medication", "Medication")
                         .WithMany("PatientMedications")
                         .HasForeignKey("MedicationId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PatientTrac.Models.Patient", "Patient")
-                        .WithMany("PatientMedications")
+                        .WithMany("CurrentMedications")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
