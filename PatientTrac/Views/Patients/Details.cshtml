@@ -46,6 +46,19 @@
         <dd>
             @Html.DisplayFor(model => model.Sex)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientMedications)
+        </dt>
+        <dd>
+            <ul>
+                @foreach (var item in @Model.PatientMedications)
+                {
+                    <li>
+                        @Html.DisplayFor(modelItem => item.MedicationId)
+                    </li>
+                }
+            </ul>
+        </dd>
     </dl>
 </div>
 <div>

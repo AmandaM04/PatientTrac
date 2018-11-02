@@ -43,7 +43,13 @@ namespace PatientTrac.Controllers
                 return NotFound();
             }
 
+            //var patron = await _context.Patron
+            //    .Include(p => p.Library)
+            //    .Include(p => p.CheckedOutBooks)
+            //    .FirstOrDefaultAsync(m => m.PatronId == id);
+
             var patient = await _context.Patient
+                .Include(p => p.PatientMedications)
                 .FirstOrDefaultAsync(m => m.PatientId == id);
             if (patient == null)
             {
