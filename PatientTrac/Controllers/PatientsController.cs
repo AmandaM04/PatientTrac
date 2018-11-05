@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,15 +16,22 @@ namespace PatientTrac.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public PatientsController(ApplicationDbContext context)
+        // Stores private reference to Identity Framework user manager
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public PatientsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        // This task retrieves the currently authenticated user
+        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Patients
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Patient.Include(p => p.DoctorPatients);
+            var applicationDbContext = _context.Patient.Include(p => p.DoctorPatients).Include(p => p.IdentityUser);
             return View(await _context.Patient.ToListAsync());
         }
 
@@ -56,8 +64,11 @@ namespace PatientTrac.Controllers
         }
 
         // GET: Patients/Create
-        public IActionResult Create()
+        public async Task <IActionResult> Create()
         {
+            // Get the current user
+            var user = await GetCurrentUserAsync();
+
             return View();
         }
 
@@ -70,10 +81,20 @@ namespace PatientTrac.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Get the current user
+                var user = await GetCurrentUserAsync();
+
+                patient.IdentityUser = user;
+
                 _context.Add(patient);
+                DoctorPatient newPatient = new DoctorPatient();
+                newPatient.DoctorId = user.Id;
+                newPatient.PatientId = patient.PatientId;
+                _context.Add(newPatient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(patient);
         }
 

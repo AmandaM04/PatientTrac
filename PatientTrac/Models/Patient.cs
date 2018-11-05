@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace PatientTrac.Models
 {
@@ -44,5 +45,7 @@ namespace PatientTrac.Models
                 return $"{FirstName} {LastName}";
             }
         }
+
+        public IdentityUser IdentityUser { get; internal set; }
     }
 }
