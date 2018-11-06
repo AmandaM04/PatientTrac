@@ -190,8 +190,12 @@ namespace PatientTrac.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient
-                .FirstOrDefaultAsync(m => m.PatientId == id);
+            var user = await GetCurrentUserAsync();
+
+            var patient = await _context.DoctorPatients
+                .Include("Patient")
+                .FirstOrDefaultAsync(m => m.PatientId == id && m.DoctorId == user.Id);
+
             if (patient == null)
             {
                 return NotFound();
@@ -205,8 +209,8 @@ namespace PatientTrac.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var patient = await _context.Patient.FindAsync(id);
-            _context.Patient.Remove(patient);
+            var patient = await _context.DoctorPatients.FindAsync(id);
+            _context.DoctorPatients.Remove(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

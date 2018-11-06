@@ -23,6 +23,16 @@ namespace PatientTrac.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Patient>()
+                .HasMany(p => p.DoctorPatients)
+                .WithOne(dp => dp.Patient)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Medication>()
+                .HasMany(p => p.PatientMedications)
+                .WithOne(pm => pm.Medication)
+                .OnDelete(DeleteBehavior.Restrict);
+
             Doctor user = new Doctor
             {
                 FirstName = "Jill",

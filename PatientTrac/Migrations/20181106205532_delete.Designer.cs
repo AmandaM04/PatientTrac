@@ -10,8 +10,8 @@ using PatientTrac.Data;
 namespace PatientTrac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181106170236_docPatient")]
-    partial class docPatient
+    [Migration("20181106205532_delete")]
+    partial class delete
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -211,7 +211,7 @@ namespace PatientTrac.Migrations
                     b.ToTable("DoctorPatients");
 
                     b.HasData(
-                        new { DoctorPatientId = 1, DoctorId = "f6ef5b74-58a5-4fe0-9232-baca55bcd37c", PatientId = 1 }
+                        new { DoctorPatientId = 1, DoctorId = "17ea3bf6-7a2b-4ac5-b84c-05cdd0c36dc7", PatientId = 1 }
                     );
                 });
 
@@ -322,7 +322,7 @@ namespace PatientTrac.Migrations
                     b.HasDiscriminator().HasValue("Doctor");
 
                     b.HasData(
-                        new { Id = "f6ef5b74-58a5-4fe0-9232-baca55bcd37c", AccessFailedCount = 0, ConcurrencyStamp = "4935d245-e40a-4128-a4bf-8d9a21950fb4", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEPbLG9T4BEMY91PVSosiEzLlHqW99WDkCJ2Yf7IlPZTj95q+QDYdYTcL+fZ+NIA7tA==", PhoneNumberConfirmed = false, SecurityStamp = "c96c6e1d-3a32-4ce7-ba93-0687da3083e6", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
+                        new { Id = "17ea3bf6-7a2b-4ac5-b84c-05cdd0c36dc7", AccessFailedCount = 0, ConcurrencyStamp = "41dfc288-2e2a-45a1-8081-a698e5a7f29f", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEEr+ZhBIkpTeVxOtvb40v1b6qO9QFSa253dkXqDu//XhvqnF4ZQckhrxZeyaPIFDiA==", PhoneNumberConfirmed = false, SecurityStamp = "6b6786ac-6a73-4f08-8d5a-4e5ab18e5700", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
                     );
                 });
 
@@ -381,7 +381,7 @@ namespace PatientTrac.Migrations
                     b.HasOne("PatientTrac.Models.Patient", "Patient")
                         .WithMany("DoctorPatients")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("PatientTrac.Models.Patient", b =>
@@ -400,7 +400,7 @@ namespace PatientTrac.Migrations
                     b.HasOne("PatientTrac.Models.Medication", "Medication")
                         .WithMany("PatientMedications")
                         .HasForeignKey("MedicationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PatientTrac.Models.Patient", "Patient")
                         .WithMany("CurrentMedications")
