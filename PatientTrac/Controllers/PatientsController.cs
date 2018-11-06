@@ -31,7 +31,11 @@ namespace PatientTrac.Controllers
         // GET: Patients
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Patient.Include(p => p.DoctorPatients).Include(p => p.IdentityUser);
+            var user = await GetCurrentUserAsync();
+            var applicationDbContext = _context.DoctorPatients
+                    .Include("Doctor")
+                    .Include("Patient")
+                    .Where(dp => dp.DoctorId == user.Id);
             return View(await _context.Patient.ToListAsync());
         }
 

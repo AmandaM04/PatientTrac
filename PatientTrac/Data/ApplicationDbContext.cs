@@ -15,6 +15,7 @@ namespace PatientTrac.Data
         {
         }
         public DbSet<PatientTrac.Models.Doctor> Doctor { get; set; }
+        public DbSet<PatientTrac.Models.DoctorPatient> DoctorPatients { get; set; }
         public DbSet<PatientTrac.Models.Medication> Medication { get; set; }
         public DbSet<PatientTrac.Models.Patient> Patient { get; set; }
 
