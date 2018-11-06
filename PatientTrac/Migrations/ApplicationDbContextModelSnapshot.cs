@@ -209,7 +209,7 @@ namespace PatientTrac.Migrations
                     b.ToTable("DoctorPatients");
 
                     b.HasData(
-                        new { DoctorPatientId = 1, DoctorId = "17ea3bf6-7a2b-4ac5-b84c-05cdd0c36dc7", PatientId = 1 }
+                        new { DoctorPatientId = 1, DoctorId = "d8bcc986-3738-47a2-aae1-e9e470dd5c31", PatientId = 1 }
                     );
                 });
 
@@ -320,7 +320,7 @@ namespace PatientTrac.Migrations
                     b.HasDiscriminator().HasValue("Doctor");
 
                     b.HasData(
-                        new { Id = "17ea3bf6-7a2b-4ac5-b84c-05cdd0c36dc7", AccessFailedCount = 0, ConcurrencyStamp = "41dfc288-2e2a-45a1-8081-a698e5a7f29f", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEEr+ZhBIkpTeVxOtvb40v1b6qO9QFSa253dkXqDu//XhvqnF4ZQckhrxZeyaPIFDiA==", PhoneNumberConfirmed = false, SecurityStamp = "6b6786ac-6a73-4f08-8d5a-4e5ab18e5700", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
+                        new { Id = "d8bcc986-3738-47a2-aae1-e9e470dd5c31", AccessFailedCount = 0, ConcurrencyStamp = "8126d859-e9cc-4b51-a67f-6e1c28e01e70", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEK0Dd56LjafC5sooALiPR4OHsGBQiCIoJ0Evbl0SgkLykZEkyTqAS1jOIpz7hVsuWg==", PhoneNumberConfirmed = false, SecurityStamp = "2e810367-e8b0-4a5d-aa8f-a3f532160e4d", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
                     );
                 });
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PatientTrac.Migrations
 {
-    public partial class delete : Migration
+    public partial class newDoc : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -262,7 +262,7 @@ namespace PatientTrac.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Facility", "FirstName", "LastName" },
-                values: new object[] { "17ea3bf6-7a2b-4ac5-b84c-05cdd0c36dc7", 0, "41dfc288-2e2a-45a1-8081-a698e5a7f29f", "Doctor", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEEr+ZhBIkpTeVxOtvb40v1b6qO9QFSa253dkXqDu//XhvqnF4ZQckhrxZeyaPIFDiA==", null, false, "6b6786ac-6a73-4f08-8d5a-4e5ab18e5700", false, "admin@admin.com", "Vanderbilt", "Jill", "Scott" });
+                values: new object[] { "d8bcc986-3738-47a2-aae1-e9e470dd5c31", 0, "8126d859-e9cc-4b51-a67f-6e1c28e01e70", "Doctor", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEK0Dd56LjafC5sooALiPR4OHsGBQiCIoJ0Evbl0SgkLykZEkyTqAS1jOIpz7hVsuWg==", null, false, "2e810367-e8b0-4a5d-aa8f-a3f532160e4d", false, "admin@admin.com", "Vanderbilt", "Jill", "Scott" });
 
             migrationBuilder.InsertData(
                 table: "Medication",
@@ -285,7 +285,7 @@ namespace PatientTrac.Migrations
             migrationBuilder.InsertData(
                 table: "DoctorPatients",
                 columns: new[] { "DoctorPatientId", "DoctorId", "PatientId" },
-                values: new object[] { 1, "17ea3bf6-7a2b-4ac5-b84c-05cdd0c36dc7", 1 });
+                values: new object[] { 1, "d8bcc986-3738-47a2-aae1-e9e470dd5c31", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
