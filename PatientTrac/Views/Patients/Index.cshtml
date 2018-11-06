@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PatientTrac.Models.Patient>
+﻿@model IEnumerable<PatientTrac.Models.DoctorPatient>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,19 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.FullName)
+                        @Html.DisplayNameFor(model => model.Patient.FullName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.StreetAddress)
+                        @Html.DisplayNameFor(model => model.Patient.StreetAddress)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                        @Html.DisplayNameFor(model => model.Patient.PhoneNumber)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Age)
+                        @Html.DisplayNameFor(model => model.Patient.Age)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Sex)
+                        @Html.DisplayNameFor(model => model.Patient.Sex)
                     </th>
                     <th></th>
                 </tr>
@@ -35,19 +35,19 @@
                 {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.FullName)
+            @Html.DisplayFor(modelItem => item.Patient.FullName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StreetAddress)
+            @Html.DisplayFor(modelItem => item.Patient.StreetAddress)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
+            @Html.DisplayFor(modelItem => item.Patient.PhoneNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Age)
+            @Html.DisplayFor(modelItem => item.Patient.Age)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Sex)
+            @Html.DisplayFor(modelItem => item.Patient.Sex)
         </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.PatientId">Edit</a> |

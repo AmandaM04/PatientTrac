@@ -77,6 +77,15 @@ namespace PatientTrac.Data
                     Type = "Analgesics"
                 }
             );
+
+            modelBuilder.Entity<DoctorPatient>().HasData(
+                new DoctorPatient()
+                {
+                    DoctorPatientId = 1,
+                    DoctorId = user.Id,
+                    PatientId = 1
+                }
+            );
         }
     }
 }

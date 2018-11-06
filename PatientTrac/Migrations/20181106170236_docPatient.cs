@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PatientTrac.Migrations
 {
-    public partial class newdatabase : Migration
+    public partial class docPatient : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,24 +66,6 @@ namespace PatientTrac.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Patient",
-                columns: table => new
-                {
-                    PatientId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    StreetAddress = table.Column<string>(nullable: false),
-                    PhoneNumber = table.Column<string>(nullable: false),
-                    Age = table.Column<int>(nullable: false),
-                    Sex = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Patient", x => x.PatientId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -101,7 +83,7 @@ namespace PatientTrac.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,7 +104,7 @@ namespace PatientTrac.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,7 +124,7 @@ namespace PatientTrac.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,13 +142,13 @@ namespace PatientTrac.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,11 +168,43 @@ namespace PatientTrac.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DoctorPatient",
+                name: "Patient",
+                columns: table => new
+                {
+                    PatientId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    StreetAddress = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    Age = table.Column<int>(nullable: false),
+                    Sex = table.Column<string>(nullable: true),
+                    MedicationsMedicationId = table.Column<int>(nullable: true),
+                    IdentityUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patient", x => x.PatientId);
+                    table.ForeignKey(
+                        name: "FK_Patient_AspNetUsers_IdentityUserId",
+                        column: x => x.IdentityUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Patient_Medication_MedicationsMedicationId",
+                        column: x => x.MedicationsMedicationId,
+                        principalTable: "Medication",
+                        principalColumn: "MedicationId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DoctorPatients",
                 columns: table => new
                 {
                     DoctorPatientId = table.Column<int>(nullable: false)
@@ -200,19 +214,19 @@ namespace PatientTrac.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DoctorPatient", x => x.DoctorPatientId);
+                    table.PrimaryKey("PK_DoctorPatients", x => x.DoctorPatientId);
                     table.ForeignKey(
-                        name: "FK_DoctorPatient_AspNetUsers_DoctorId",
+                        name: "FK_DoctorPatients_AspNetUsers_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DoctorPatient_Patient_PatientId",
+                        name: "FK_DoctorPatients_Patient_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patient",
                         principalColumn: "PatientId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -236,19 +250,19 @@ namespace PatientTrac.Migrations
                         column: x => x.MedicationId,
                         principalTable: "Medication",
                         principalColumn: "MedicationId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PatientMedication_Patient_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patient",
                         principalColumn: "PatientId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "Facility", "FirstName", "LastName" },
-                values: new object[] { "2601bfa6-8dfe-4a13-8b52-fc4ddd664806", 0, "28888e74-b3f5-45c4-aa6a-3b5e891ef357", "Doctor", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEIayr46Fz7Y+JNh7rkYiev5cDmtvK2lOuxTinbtTA//Sh6RFlrLc31TeNtMd8XCVSQ==", null, false, "7386a051-ca15-4f59-bdbb-bf1a7ab5e6b5", false, "admin@admin.com", "Vanderbilt", "Jill", "Scott" });
+                values: new object[] { "f6ef5b74-58a5-4fe0-9232-baca55bcd37c", 0, "4935d245-e40a-4128-a4bf-8d9a21950fb4", "Doctor", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEPbLG9T4BEMY91PVSosiEzLlHqW99WDkCJ2Yf7IlPZTj95q+QDYdYTcL+fZ+NIA7tA==", null, false, "c96c6e1d-3a32-4ce7-ba93-0687da3083e6", false, "admin@admin.com", "Vanderbilt", "Jill", "Scott" });
 
             migrationBuilder.InsertData(
                 table: "Medication",
@@ -261,12 +275,17 @@ namespace PatientTrac.Migrations
 
             migrationBuilder.InsertData(
                 table: "Patient",
-                columns: new[] { "PatientId", "Age", "FirstName", "LastName", "PhoneNumber", "Sex", "StreetAddress" },
+                columns: new[] { "PatientId", "Age", "FirstName", "IdentityUserId", "LastName", "MedicationsMedicationId", "PhoneNumber", "Sex", "StreetAddress" },
                 values: new object[,]
                 {
-                    { 1, 32, "Amanda", "Mitchell", "615-123-4567", "Female", "123 Book Street" },
-                    { 2, 50, "John", "Doe", "931-380-9843", "Male", "789 Yellow Brick Rd" }
+                    { 1, 32, "Amanda", null, "Mitchell", null, "615-123-4567", "Female", "123 Book Street" },
+                    { 2, 50, "John", null, "Doe", null, "931-380-9843", "Male", "789 Yellow Brick Rd" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "DoctorPatients",
+                columns: new[] { "DoctorPatientId", "DoctorId", "PatientId" },
+                values: new object[] { 1, "f6ef5b74-58a5-4fe0-9232-baca55bcd37c", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -308,14 +327,24 @@ namespace PatientTrac.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorPatient_DoctorId",
-                table: "DoctorPatient",
+                name: "IX_DoctorPatients_DoctorId",
+                table: "DoctorPatients",
                 column: "DoctorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DoctorPatient_PatientId",
-                table: "DoctorPatient",
+                name: "IX_DoctorPatients_PatientId",
+                table: "DoctorPatients",
                 column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_IdentityUserId",
+                table: "Patient",
+                column: "IdentityUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_MedicationsMedicationId",
+                table: "Patient",
+                column: "MedicationsMedicationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PatientMedication_MedicationId",
@@ -346,7 +375,7 @@ namespace PatientTrac.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DoctorPatient");
+                name: "DoctorPatients");
 
             migrationBuilder.DropTable(
                 name: "PatientMedication");
@@ -355,13 +384,13 @@ namespace PatientTrac.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Patient");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Medication");
-
-            migrationBuilder.DropTable(
-                name: "Patient");
         }
     }
 }

@@ -36,7 +36,7 @@ namespace PatientTrac.Controllers
                     .Include("Doctor")
                     .Include("Patient")
                     .Where(dp => dp.DoctorId == user.Id);
-            return View(await _context.Patient.ToListAsync());
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // Search: Patients
