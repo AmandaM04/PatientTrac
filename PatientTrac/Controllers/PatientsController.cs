@@ -17,23 +17,22 @@ namespace PatientTrac.Controllers
         private readonly ApplicationDbContext _context;
 
         // Stores private reference to Identity Framework user manager
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Doctor> _userManager;
 
-        public PatientsController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public PatientsController(ApplicationDbContext context, UserManager<Doctor> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
         // This task retrieves the currently authenticated user
-        private Task<IdentityUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        private Task<Doctor> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Patients
         public async Task<IActionResult> Index()
         {
             var user = await GetCurrentUserAsync();
             var applicationDbContext = _context.DoctorPatients
-                    .Include("Doctor")
                     .Include("Patient")
                     .Where(dp => dp.DoctorId == user.Id);
             return View(await applicationDbContext.ToListAsync());
@@ -87,8 +86,6 @@ namespace PatientTrac.Controllers
             {
                 // Get the current user
                 var user = await GetCurrentUserAsync();
-
-                patient.IdentityUser = user;
 
                 _context.Add(patient);
                 DoctorPatient newPatient = new DoctorPatient();

@@ -10,8 +10,8 @@ using PatientTrac.Data;
 namespace PatientTrac.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181106220652_newDoc")]
-    partial class newDoc
+    [Migration("20181107191524_identity")]
+    partial class identity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -211,7 +211,7 @@ namespace PatientTrac.Migrations
                     b.ToTable("DoctorPatients");
 
                     b.HasData(
-                        new { DoctorPatientId = 1, DoctorId = "d8bcc986-3738-47a2-aae1-e9e470dd5c31", PatientId = 1 }
+                        new { DoctorPatientId = 1, DoctorId = "0c542c0a-ae9f-47d9-b6e9-ec95dadbea84", PatientId = 1 }
                     );
                 });
 
@@ -248,8 +248,6 @@ namespace PatientTrac.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired();
 
-                    b.Property<string>("IdentityUserId");
-
                     b.Property<string>("LastName")
                         .IsRequired();
 
@@ -264,8 +262,6 @@ namespace PatientTrac.Migrations
                         .IsRequired();
 
                     b.HasKey("PatientId");
-
-                    b.HasIndex("IdentityUserId");
 
                     b.HasIndex("MedicationsMedicationId");
 
@@ -322,7 +318,7 @@ namespace PatientTrac.Migrations
                     b.HasDiscriminator().HasValue("Doctor");
 
                     b.HasData(
-                        new { Id = "d8bcc986-3738-47a2-aae1-e9e470dd5c31", AccessFailedCount = 0, ConcurrencyStamp = "8126d859-e9cc-4b51-a67f-6e1c28e01e70", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEK0Dd56LjafC5sooALiPR4OHsGBQiCIoJ0Evbl0SgkLykZEkyTqAS1jOIpz7hVsuWg==", PhoneNumberConfirmed = false, SecurityStamp = "2e810367-e8b0-4a5d-aa8f-a3f532160e4d", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
+                        new { Id = "0c542c0a-ae9f-47d9-b6e9-ec95dadbea84", AccessFailedCount = 0, ConcurrencyStamp = "90336e07-f977-4bdf-9532-6c3ba2855b1a", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEG8x0Bo71pKwm1XoY5S1FGvF4W7aHnBRNLzGFYFVWdVKJTbWcay70tVRjObhKF71tA==", PhoneNumberConfirmed = false, SecurityStamp = "a2579ced-aa31-4ff1-976f-1f1fbddabc35", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
                     );
                 });
 
@@ -386,10 +382,6 @@ namespace PatientTrac.Migrations
 
             modelBuilder.Entity("PatientTrac.Models.Patient", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("IdentityUserId");
-
                     b.HasOne("PatientTrac.Models.Medication", "Medications")
                         .WithMany()
                         .HasForeignKey("MedicationsMedicationId");

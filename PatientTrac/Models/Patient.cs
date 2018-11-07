@@ -45,7 +45,5 @@ namespace PatientTrac.Models
                 return $"{FirstName} {LastName}";
             }
         }
-
-        public IdentityUser IdentityUser { get; internal set; }
     }
 }
