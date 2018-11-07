@@ -206,7 +206,11 @@ namespace PatientTrac.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("DoctorPatient");
+                    b.ToTable("DoctorPatients");
+
+                    b.HasData(
+                        new { DoctorPatientId = 1, DoctorId = "0c542c0a-ae9f-47d9-b6e9-ec95dadbea84", PatientId = 1 }
+                    );
                 });
 
             modelBuilder.Entity("PatientTrac.Models.Medication", b =>
@@ -312,7 +316,7 @@ namespace PatientTrac.Migrations
                     b.HasDiscriminator().HasValue("Doctor");
 
                     b.HasData(
-                        new { Id = "b2f391f0-2036-4533-a32c-71b99c37cf03", AccessFailedCount = 0, ConcurrencyStamp = "b2bc1c03-a337-45da-a483-3bb82ab8d6ad", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEEz/ePYd48AgJKbvLoj4d6DmLpS23gek42hrUOqUwWNxy1VbI0Mub+EYoYKQ3rpxcw==", PhoneNumberConfirmed = false, SecurityStamp = "aedfebb8-d0b2-4d82-bc33-6f20eceeced5", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
+                        new { Id = "0c542c0a-ae9f-47d9-b6e9-ec95dadbea84", AccessFailedCount = 0, ConcurrencyStamp = "90336e07-f977-4bdf-9532-6c3ba2855b1a", Email = "admin@admin.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "ADMIN@ADMIN.COM", NormalizedUserName = "ADMIN@ADMIN.COM", PasswordHash = "AQAAAAEAACcQAAAAEG8x0Bo71pKwm1XoY5S1FGvF4W7aHnBRNLzGFYFVWdVKJTbWcay70tVRjObhKF71tA==", PhoneNumberConfirmed = false, SecurityStamp = "a2579ced-aa31-4ff1-976f-1f1fbddabc35", TwoFactorEnabled = false, UserName = "admin@admin.com", Facility = "Vanderbilt", FirstName = "Jill", LastName = "Scott" }
                     );
                 });
 
@@ -371,7 +375,7 @@ namespace PatientTrac.Migrations
                     b.HasOne("PatientTrac.Models.Patient", "Patient")
                         .WithMany("DoctorPatients")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("PatientTrac.Models.Patient", b =>
@@ -386,7 +390,7 @@ namespace PatientTrac.Migrations
                     b.HasOne("PatientTrac.Models.Medication", "Medication")
                         .WithMany("PatientMedications")
                         .HasForeignKey("MedicationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PatientTrac.Models.Patient", "Patient")
                         .WithMany("CurrentMedications")

@@ -15,12 +15,23 @@ namespace PatientTrac.Data
         {
         }
         public DbSet<PatientTrac.Models.Doctor> Doctor { get; set; }
+        public DbSet<PatientTrac.Models.DoctorPatient> DoctorPatients { get; set; }
         public DbSet<PatientTrac.Models.Medication> Medication { get; set; }
         public DbSet<PatientTrac.Models.Patient> Patient { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Patient>()
+                .HasMany(p => p.DoctorPatients)
+                .WithOne(dp => dp.Patient)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Medication>()
+                .HasMany(p => p.PatientMedications)
+                .WithOne(pm => pm.Medication)
+                .OnDelete(DeleteBehavior.Restrict);
 
             Doctor user = new Doctor
             {
@@ -74,6 +85,15 @@ namespace PatientTrac.Data
                     MedicationId = 2,
                     Name = "Oxycodone",
                     Type = "Analgesics"
+                }
+            );
+
+            modelBuilder.Entity<DoctorPatient>().HasData(
+                new DoctorPatient()
+                {
+                    DoctorPatientId = 1,
+                    DoctorId = user.Id,
+                    PatientId = 1
                 }
             );
         }

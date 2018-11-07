@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,16 +16,26 @@ namespace PatientTrac.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public PatientsController(ApplicationDbContext context)
+        // Stores private reference to Identity Framework user manager
+        private readonly UserManager<Doctor> _userManager;
+
+        public PatientsController(ApplicationDbContext context, UserManager<Doctor> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+        // This task retrieves the currently authenticated user
+        private Task<Doctor> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Patients
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Patient.Include(p => p.DoctorPatients);
-            return View(await _context.Patient.ToListAsync());
+            var user = await GetCurrentUserAsync();
+            var applicationDbContext = _context.DoctorPatients
+                    .Include("Patient")
+                    .Where(dp => dp.DoctorId == user.Id);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // Search: Patients
@@ -56,8 +67,11 @@ namespace PatientTrac.Controllers
         }
 
         // GET: Patients/Create
-        public IActionResult Create()
+        public async Task <IActionResult> Create()
         {
+            // Get the current user
+            var user = await GetCurrentUserAsync();
+
             return View();
         }
 
@@ -70,10 +84,18 @@ namespace PatientTrac.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Get the current user
+                var user = await GetCurrentUserAsync();
+
                 _context.Add(patient);
+                DoctorPatient newPatient = new DoctorPatient();
+                newPatient.DoctorId = user.Id;
+                newPatient.PatientId = patient.PatientId;
+                _context.Add(newPatient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            
             return View(patient);
         }
 
@@ -165,8 +187,12 @@ namespace PatientTrac.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient
-                .FirstOrDefaultAsync(m => m.PatientId == id);
+            var user = await GetCurrentUserAsync();
+
+            var patient = await _context.DoctorPatients
+                .Include("Patient")
+                .FirstOrDefaultAsync(m => m.PatientId == id && m.DoctorId == user.Id);
+
             if (patient == null)
             {
                 return NotFound();
@@ -180,8 +206,8 @@ namespace PatientTrac.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var patient = await _context.Patient.FindAsync(id);
-            _context.Patient.Remove(patient);
+            var patient = await _context.DoctorPatients.FindAsync(id);
+            _context.DoctorPatients.Remove(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
