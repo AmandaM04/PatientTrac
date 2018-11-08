@@ -13,27 +13,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PatientId" name="PatientId" />
             <div class="form-group">
-                <label asp-for="MedicationId" class="control-label" name="MedicationId"></label>
+                <label asp-for="MedicationId" class="control-label" name="MedicationId">Medication Name</label>
                 <select asp-for="MedicationId" class="form-control" asp-items="@Model.MedicationId"></select>
                 <span asp-validation-for="MedicationId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CurrentlyTaking" class="control-label" name="CurrentlyTaking"></label>
+                <label asp-for="CurrentlyTaking" class="control-label" name="CurrentlyTaking">Currently Taking</label>
                 <input asp-for="CurrentlyTaking" class="form-control" />
                 <span asp-validation-for="CurrentlyTaking" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StartDate" class="control-label" name="StartDate"></label>
+                <label asp-for="StartDate" class="control-label" name="StartDate">Start Date</label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StopDate" class="control-label" name="StopDate"></label>
+                <label asp-for="StopDate" class="control-label" name="StopDate">Stop Date</label>
                 <input asp-for="StopDate" class="form-control" />
                 <span asp-validation-for="StopDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Dosage" class="control-label" name="Dosage"></label>
+                <label asp-for="Dosage" class="control-label" name="Dosage">Dosage (mg)</label>
                 <input asp-for="Dosage" class="form-control" />
                 <span asp-validation-for="Dosage" class="text-danger"></span>
             </div>

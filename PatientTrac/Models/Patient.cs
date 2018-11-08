@@ -21,9 +21,11 @@ namespace PatientTrac.Models
         public string LastName { get; set; }
 
         [Required]
+        [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
 
         [Required]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
         public int Age { get; set; }

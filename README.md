@@ -29,4 +29,6 @@ patients profile. STOP DOCTOR SHOPPING!
 
 10. Add Medications form will need to be completed with Medication Name(select List), Currently Taking(checkbox), Start Date, Stop Date(can be left blank), and Dosage in milligrams.
 
+11. Click on the details 
+
 
