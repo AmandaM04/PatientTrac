@@ -206,7 +206,9 @@ namespace PatientTrac.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var patient = await _context.DoctorPatients.FindAsync(id);
+            var user = await GetCurrentUserAsync();
+
+            var patient = await _context.DoctorPatients.FirstOrDefaultAsync(m => m.PatientId == id && m.DoctorId == user.Id);
             _context.DoctorPatients.Remove(patient);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
