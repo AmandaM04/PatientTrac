@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edit Patient Details</h2>
 
-<h4>Patient</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -45,6 +44,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
+                <a asp-action="AddMeds" asp-route-id="@Model.PatientId" class="addMed">Add Medication</a>
             </div>
         </form>
     </div>
@@ -52,7 +52,6 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
-    <a asp-action="AddMeds" asp-route-id="@Model.PatientId">Add Medication</a>
 </div>
 
 @section Scripts {
