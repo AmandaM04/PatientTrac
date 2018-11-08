@@ -5,9 +5,9 @@ display a list of their current patients. Doctors can add medications that aren'
 doctor, they can be deleted by the doctor from their current patient list. The patients can not be deleted from the database. Medications assigned to a patient can not deleted from the
 patients profile. STOP DOCTOR SHOPPING!
 
-**How to test (Be thorough!):
+## Getting Started
 
-1. Checkout to my project PatientTrac
+1. Clone down my repo
 
 2. type start PatientTrac.sln
 
@@ -17,18 +17,36 @@ patients profile. STOP DOCTOR SHOPPING!
 
 5. A browser window will automatically open and display my site once the project builds inside Visual Studio
 
-6.  Log in with the seeded data and doctor. 
+## LogIn/Register
+1.  Log in with the seeded data and doctor using the credentials below. 
 	- Email: admin@admin.com
 	- Password: Admin123!
 
-7. Click on the Patient tab inside navbar to display a list of the doctors current patients.
+2. Register for a new doctor by clicking on the Register Tab inside the navbar. You will need to include all information the form ask for.
 
-8. You can click "Create New" link to add a new patient. (First Name, Last Name, Street Address, Phone Number, Age, and Sex)
+## Patient
 
-9. To add Medications to a patient, click on the "Edit" link from list or within the details view
+1. Click on the Patient tab inside navbar to display a list of patients belonging to the doctor that is currently logged in.
 
-10. Add Medications form will need to be completed with Medication Name(select List), Currently Taking(checkbox), Start Date, Stop Date(can be left blank), and Dosage in milligrams.
+2. You can click "Create New" link to add a new patient. (First Name, Last Name, Street Address, Phone Number, Age, and Sex)
 
-11. Click on the details 
+3. To add Medications to a patient's profile, click on the "Edit" link next to the patients information. When the edit form populates, there will be a button "Add Medications" toward
+the bottom. Click this button and fill out information
 
+4. Add Medications form will need to be completed with Medication Name(select List), Currently Taking(checkbox), Start Date, Stop Date(can be left blank), and Dosage in milligrams.
 
+5. Click on the details link to show information about the patient as well as any medications that have been added to their profile. This information Can Not be deleted.
+
+6. If a patient is no longer seeing the current logged in doctor, you can delete them from the list ONLY. They will still be inside the database.
+
+## Medication
+
+1. Click on the Patient tab inside navbar to display a list of medications
+
+2. You can click "Create New" link to add a new medication. (Name and Type)
+
+## Search
+
+1. Doctors can search for a patient even if they do not belong to their facility or current list.
+
+2. Click on the name of the patient to view the details in order to confirm you have selected the correct patient and show if and when they have been given any and all medications.
