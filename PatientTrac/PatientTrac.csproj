@@ -6,17 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Identity\Pages\Account\**" />
-    <Content Remove="Areas\Identity\Pages\Account\**" />
-    <EmbeddedResource Remove="Areas\Identity\Pages\Account\**" />
-    <None Remove="Areas\Identity\Pages\Account\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.4" PrivateAssets="All" />
   </ItemGroup>
